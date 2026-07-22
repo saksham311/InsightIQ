@@ -1,6 +1,9 @@
+from pprint import pprint
+
 from src.config.logging_config import logger
 from src.config.settings import REVIEWS_FILE
 from src.ingestion.data_loader import DataLoader
+from src.profiling.profiler import DataProfiler
 
 
 def main():
@@ -11,14 +14,13 @@ def main():
 
     reviews = loader.load_reviews()
 
-    logger.info(f"Dataset Shape : {reviews.shape}")
+    profiler = DataProfiler(reviews)
 
-    logger.info("\nColumns:")
+    report = profiler.generate_report()
 
-    for column in reviews.columns:
-        logger.info(f" - {column}")
+    logger.success("Data Profiling Completed Successfully\n")
 
-    logger.success("Data ingestion completed successfully.")
+    pprint(report, sort_dicts=False)
 
 
 if __name__ == "__main__":
