@@ -3,6 +3,7 @@ from pathlib import Path
 import pandas as pd
 from loguru import logger
 
+from src.config.settings import PROCESSED_REVIEWS_FILE
 
 class DataLoader:
     """
@@ -26,3 +27,22 @@ class DataLoader:
         logger.success(f"Successfully loaded {len(df):,} reviews.")
 
         return df
+
+    def load_processed_reviews(self) -> pd.DataFrame:
+
+        logger.info(
+            f"Loading processed dataset from: {PROCESSED_REVIEWS_FILE}"
+        )
+
+        if not PROCESSED_REVIEWS_FILE.exists():
+            raise FileNotFoundError(
+                f"Processed dataset not found: {PROCESSED_REVIEWS_FILE}"
+            )
+
+        df = pd.read_csv(PROCESSED_REVIEWS_FILE)
+
+        logger.success(
+            f"Successfully loaded {len(df):,} processed reviews."
+        )
+
+        return df    

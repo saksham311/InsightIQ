@@ -27,3 +27,15 @@ EMBEDDING_MODEL = os.getenv(
     "EMBEDDING_MODEL",
     "sentence-transformers/all-MiniLM-L6-v2"
 )
+
+# Processed Data Paths
+PROCESSED_REVIEWS_FILE = (
+    PROCESSED_DATA_DIR / "reviews_processed.csv"
+)
+
+# ==========================
+# NLP Configuration
+# ==========================
+
+PREPROCESS_BATCH_SIZE = 5000
+SPACY_PIPE_BATCH_SIZE = 256
