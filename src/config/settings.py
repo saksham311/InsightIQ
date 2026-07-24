@@ -39,3 +39,16 @@ PROCESSED_REVIEWS_FILE = (
 
 PREPROCESS_BATCH_SIZE = 5000
 SPACY_PIPE_BATCH_SIZE = 256
+
+# ==========================
+# Embedding Configuration
+# ==========================
+
+EMBEDDINGS_DIR = DATA_DIR / "embeddings"
+EMBEDDINGS_DIR.mkdir(parents=True, exist_ok=True)
+
+EMBEDDINGS_FILE = EMBEDDINGS_DIR / "review_embeddings.npy"
+METADATA_FILE = EMBEDDINGS_DIR / "review_metadata.parquet"
+
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+EMBEDDING_BATCH_SIZE = 512

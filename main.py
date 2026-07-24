@@ -9,6 +9,9 @@ from src.ingestion.data_loader import DataLoader
 from src.preprocessing.text_preprocessor import TextPreprocessor
 from src.profiling.profiler import DataProfiler
 
+from src.embeddings.embedding_generator import EmbeddingGenerator
+from src.embeddings.embedding_storage import EmbeddingStorage
+
 from pathlib import Path
 
 def main():
@@ -50,6 +53,21 @@ def main():
         logger.success(
             f"Processed dataset saved to {PROCESSED_REVIEWS_FILE}"
         )
+
+
+    # --------------------------------------------------
+    # Generate Embeddings
+    # --------------------------------------------------
+
+    generator = EmbeddingGenerator()
+
+    embeddings = generator.generate_embeddings(
+        reviews["CleanedText"]
+    )
+
+    EmbeddingStorage.save_embeddings(
+        embeddings
+    )    
 
 if __name__ == "__main__":
     main()
