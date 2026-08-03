@@ -19,6 +19,7 @@ logs/
 data/raw/
 data/processed/
 data/embeddings/
+data/vector_index/
 
 # VS Code
 .vscode/
