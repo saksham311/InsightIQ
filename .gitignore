@@ -26,3 +26,6 @@ data/vector_index/
 
 # Jupyter
 .ipynb_checkpoints/
+
+#Topic Models
+data/topic_models/
