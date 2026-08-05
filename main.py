@@ -1,16 +1,4 @@
-"""
-InsightIQ
 
-Main application entry point.
-
-Responsible for:
-
-- Loading data
-- Running preprocessing
-- Loading embeddings
-- Initializing semantic search
-- Starting the interactive CLI
-"""
 
 from pathlib import Path
 from pprint import pprint
@@ -20,6 +8,7 @@ from src.config.settings import (
     REVIEWS_FILE,
     PROCESSED_REVIEWS_FILE,
     FAISS_INDEX_FILE,
+    TOPIC_MODEL_FILE,
 )
 
 from src.ingestion.data_loader import DataLoader
@@ -33,6 +22,9 @@ from src.vector_search.faiss_index import FAISSIndex
 from src.vector_search.search_engine import SearchEngine
 
 from src.reranking.cross_encoder_reranker import CrossEncoderReranker
+
+from src.topic_modeling.topic_modeler import TopicModeler
+from src.topic_modeling.topic_storage import TopicStorage
 
 def main():
 
@@ -89,6 +81,38 @@ def main():
     logger.info("Loading embeddings from disk...")
 
     embeddings = EmbeddingStorage.load_embeddings()
+
+
+    # ----------------------------
+    # Load / Train Topic Model
+    # ----------------------------
+    topic_modeler = TopicModeler()
+
+    if TopicStorage.model_exists():
+
+        logger.success(
+            "BERTopic model found. Loading existing model."
+        )
+
+        topic_model = TopicStorage.load_model()
+
+        topic_modeler.load_model(topic_model)
+
+    else:
+
+        logger.info(
+            "Training BERTopic model..."
+        )
+
+        topic_modeler.fit(
+            documents=reviews["CleanedText"],
+            embeddings=embeddings,
+        )
+
+        TopicStorage.save_model(
+            topic_modeler.get_model()
+        )
+
 
     # ----------------------------
     # Load / Build FAISS Index
@@ -191,7 +215,7 @@ def main():
 
         except Exception as e:
 
-            logger.exception(
+            logger.error(
                 f"Search failed: {e}"
             )
 

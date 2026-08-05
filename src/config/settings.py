@@ -96,3 +96,12 @@ CROSS_ENCODER_MODEL = os.getenv(
     "CROSS_ENCODER_MODEL",
     "cross-encoder/ms-marco-MiniLM-L-6-v2",
 )
+
+# ==========================
+# Topic Modeling
+# ==========================
+
+TOPIC_MODEL_DIR = DATA_DIR / "topic_models"
+TOPIC_MODEL_DIR.mkdir(parents=True, exist_ok=True)
+
+TOPIC_MODEL_FILE = TOPIC_MODEL_DIR / "bertopic_model"
