@@ -26,6 +26,8 @@ from src.reranking.cross_encoder_reranker import CrossEncoderReranker
 from src.topic_modeling.topic_modeler import TopicModeler
 from src.topic_modeling.topic_storage import TopicStorage
 
+from src.business_insights.topic_analyzer import TopicAnalyzer
+
 def main():
 
     logger.info("Starting InsightIQ...")
@@ -139,6 +141,14 @@ def main():
     logger.success("InsightIQ setup completed successfully.")
 
     # ----------------------------
+    # Business Insights
+    # ----------------------------
+    analyzer = TopicAnalyzer(
+        topic_modeler=topic_modeler,
+        reviews=reviews,
+    )
+
+    # ----------------------------
     # Initialise Search Engine
     # ----------------------------
     embedding_generator = EmbeddingGenerator()
@@ -218,7 +228,6 @@ def main():
             logger.error(
                 f"Search failed: {e}"
             )
-
 
 if __name__ == "__main__":
     main()
